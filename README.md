@@ -1,5 +1,5 @@
 # Gas Trax
-Lightweight Ehtereum Mainnet gas tracker
+Lightweight Ethereum Mainnet gas tracker
 
 ## Steps
 1. Download the files
