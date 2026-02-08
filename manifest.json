@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Gas Trax",
+  "version": "1.0.0",
+  "description": "Ethereum EIP-1559 gas fee estimator — bid minimal tip with high inclusion probability.",
+  "permissions": ["storage", "alarms"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/star.png"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "128": "icons/star.png"
+  }
+}

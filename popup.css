@@ -1,0 +1,260 @@
+/* ── Reset & Base ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 400px;
+  min-height: 200px;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  color: #e4e4e7;
+  background: #18181b;
+}
+
+#app { padding: 12px 16px 16px; }
+
+/* ── Header ─────────────────────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #a78bfa;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.star-of-david { flex-shrink: 0; position: relative; top: -1px; }
+
+#header-controls { display: flex; gap: 6px; }
+
+#header-controls button {
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  color: #b4b4bb;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+#header-controls button:hover {
+  background: #3f3f46;
+  color: #e4e4e7;
+}
+
+#header-controls button.active {
+  background: #4c1d95;
+  border-color: #7c3aed;
+  color: #c4b5fd;
+}
+
+/* ── Banners ────────────────────────────────────────────── */
+.banner {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.banner-setup {
+  background: #1e1b4b;
+  border: 1px solid #4c1d95;
+  color: #c4b5fd;
+  text-align: center;
+}
+
+.banner-setup button {
+  margin-top: 8px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.banner-setup button:hover { background: #6d28d9; }
+
+#error-banner {
+  background: #450a0a;
+  border: 1px solid #991b1b;
+  color: #fca5a5;
+}
+
+.hidden { display: none !important; }
+
+/* ── Status Row ─────────────────────────────────────────── */
+#status-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat {
+  flex: 1;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #b4b4bb;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f4f4f5;
+}
+
+.stat-unit {
+  display: block;
+  font-size: 10px;
+  color: #b4b4bb;
+}
+
+/* Trend colours */
+.trend-rising  { color: #f87171; }
+.trend-flat    { color: #a1a1aa; }
+.trend-falling { color: #4ade80; }
+
+/* Badge */
+.stat-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.badge-favorable  { background: #064e3b; color: #6ee7b7; }
+.badge-choppy     { background: #78350f; color: #fcd34d; }
+.badge-congested  { background: #7f1d1d; color: #fca5a5; }
+
+/* ── Gas Table ──────────────────────────────────────────── */
+#gas-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+#gas-table th {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #b4b4bb;
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #3f3f46;
+}
+
+#gas-table th:last-child { text-align: center; }
+
+#gas-table td {
+  padding: 8px;
+  border-bottom: 1px solid #27272a;
+  font-size: 13px;
+}
+
+#gas-table td:first-child {
+  font-weight: 600;
+  color: #d4d4d8;
+}
+
+.tip-cell, .maxfee-cell {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+
+.btn-copy {
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  color: #b4b4bb;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-copy:hover { background: #3f3f46; color: #e4e4e7; }
+
+.btn-copy.copied {
+  background: #064e3b;
+  border-color: #065f46;
+  color: #6ee7b7;
+}
+
+/* ── Explainer ──────────────────────────────────────────── */
+.explainer {
+  font-size: 11px;
+  color: #b4b4bb;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.explainer em { color: #a1a1aa; }
+
+/* ── Advanced Panel ─────────────────────────────────────── */
+#advanced-panel {
+  background: #1c1c1f;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+#advanced-panel h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #b4b4bb;
+  margin-bottom: 8px;
+}
+
+.adv-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  font-size: 12px;
+}
+
+.adv-label { color: #a1a1aa; }
+.adv-value { color: #f4f4f5; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── Updated Row ────────────────────────────────────────── */
+#updated-row {
+  font-size: 10px;
+  color: #8c8c95;
+  text-align: right;
+}
+
+/* ── Spinner on refresh button ──────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+#btn-refresh.spinning { animation: spin 0.6s linear infinite; }

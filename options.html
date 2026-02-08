@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gas Trax — Settings</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: #18181b;
+      color: #e4e4e7;
+      display: flex;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    .card {
+      background: #27272a;
+      border: 1px solid #3f3f46;
+      border-radius: 12px;
+      padding: 28px 32px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #a78bfa;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #a1a1aa;
+      margin-bottom: 6px;
+    }
+
+    input[type="url"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #3f3f46;
+      border-radius: 8px;
+      background: #18181b;
+      color: #f4f4f5;
+      font-size: 13px;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="url"]:focus { border-color: #7c3aed; }
+    input[type="url"]::placeholder { color: #52525b; }
+
+    .hint {
+      font-size: 11px;
+      color: #71717a;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    #btn-save {
+      background: #7c3aed;
+      color: #fff;
+    }
+    #btn-save:hover { background: #6d28d9; }
+
+    #btn-reset {
+      background: #3f3f46;
+      color: #a1a1aa;
+    }
+    #btn-reset:hover { background: #52525b; color: #e4e4e7; }
+
+    #status {
+      font-size: 12px;
+      margin-left: 8px;
+    }
+    .status-ok    { color: #4ade80; }
+    .status-error { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Gas Trax Settings</h1>
+
+    <label for="rpc-url">Ethereum Mainnet RPC URL</label>
+    <input type="url" id="rpc-url" placeholder="https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY" spellcheck="false">
+    <p class="hint">
+      Default: <strong>https://ethereum-rpc.publicnode.com</strong> (free, no key required).<br>
+      Override with your own HTTPS endpoint (Alchemy, Infura, etc.) for higher rate limits.<br>
+      Your URL is stored locally and never sent anywhere except the RPC itself.
+    </p>
+
+    <div class="actions">
+      <button id="btn-save">Save</button>
+      <button id="btn-reset">Reset to Default</button>
+      <span id="status"></span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
