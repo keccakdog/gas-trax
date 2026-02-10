@@ -30,7 +30,7 @@ h1 {
   gap: 6px;
 }
 
-.star-of-david { flex-shrink: 0; position: relative; top: -1px; }
+.header-icon { flex-shrink: 0; position: relative; top: -1px; }
 
 #header-controls { display: flex; gap: 6px; }
 

@@ -9,10 +9,10 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icons/star.png"
+    "default_icon": "icons/ethereum-eth-logo.png"
   },
   "options_page": "options.html",
   "icons": {
-    "128": "icons/star.png"
+    "128": "icons/ethereum-eth-logo.png"
   }
 }
