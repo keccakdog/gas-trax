@@ -9,7 +9,7 @@
 <body>
   <div id="app">
     <header>
-      <h1><img src="icons/ethereum-eth-logo.png" alt="ETH" width="20" height="20" class="header-icon"> Gas Trax</h1>
+      <h1><img src="icons/ethereum-eth-logo.png" alt="ETH" width="20" height="20" class="header-icon"> Gas Trax <span class="stat-badge" id="congestion-badge">—</span></h1>
       <div id="header-controls">
         <button id="btn-refresh" title="Refresh now">&#x21bb;</button>
         <button id="btn-advanced" title="Toggle advanced view">&#x2699;</button>
@@ -28,60 +28,38 @@
       <div id="status-row">
         <div class="stat">
           <span class="stat-label">Base Fee</span>
-          <span class="stat-value" id="base-fee">—</span>
+          <span class="stat-value copyable" id="base-fee" title="Click to copy">—</span>
           <span class="stat-unit">gwei</span>
         </div>
-        <div class="stat">
+        <div class="stat stat-trend">
           <span class="stat-label">Trend</span>
-          <span class="stat-value" id="trend">—</span>
-        </div>
-        <div class="stat">
-          <span class="stat-label">Network</span>
-          <span class="stat-badge" id="congestion-badge">—</span>
+          <div class="stat-chart" id="trend">—</div>
         </div>
       </div>
 
-      <table id="gas-table">
-        <thead>
-          <tr>
-            <th>Target</th>
-            <th>Tip (gwei)</th>
-            <th>Max Fee (gwei)</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-target="next">
-            <td>Next block</td>
-            <td class="tip-cell">—</td>
-            <td class="maxfee-cell">—</td>
-            <td><button class="btn-copy" data-target="next" title="Copy JSON">&#x2398;</button></td>
-          </tr>
-          <tr data-target="mid">
-            <td>2–3 blocks</td>
-            <td class="tip-cell">—</td>
-            <td class="maxfee-cell">—</td>
-            <td><button class="btn-copy" data-target="mid" title="Copy JSON">&#x2398;</button></td>
-          </tr>
-          <tr data-target="bargain">
-            <td>5 blocks</td>
-            <td class="tip-cell">—</td>
-            <td class="maxfee-cell">—</td>
-            <td><button class="btn-copy" data-target="bargain" title="Copy JSON">&#x2398;</button></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="explainer">
-        <strong>maxFeePerGas</strong> is a cap. You actually pay
-        <em>baseFee + tip</em> (when baseFee &le; maxFee &minus; tip).
-      </p>
+      <div id="gas-tiers">
+        <div class="tier" data-target="bargain">
+          <span class="tier-label">Slow</span>
+          <span class="tier-gwei" id="gwei-bargain">—</span>
+          <span class="tier-time">~60s</span>
+        </div>
+        <div class="tier" data-target="mid">
+          <span class="tier-label">Normal</span>
+          <span class="tier-gwei" id="gwei-mid">—</span>
+          <span class="tier-time">~30s</span>
+        </div>
+        <div class="tier" data-target="next">
+          <span class="tier-label">Fast</span>
+          <span class="tier-gwei" id="gwei-next">—</span>
+          <span class="tier-time">~12s</span>
+        </div>
+      </div>
 
       <!-- Advanced panel -->
       <div id="advanced-panel" class="hidden">
         <h2>Advanced</h2>
         <div class="adv-grid">
-          <span class="adv-label">Fullness (10-blk avg)</span>
+          <span class="adv-label">Fullness (last ~2 min)</span>
           <span class="adv-value" id="adv-fullness">—</span>
 
           <span class="adv-label">Tip dispersion</span>

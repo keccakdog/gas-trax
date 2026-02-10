@@ -23,6 +23,8 @@ const DEFAULT_RPC = "https://ethereum-rpc.publicnode.com";
 let rpcUrl       = DEFAULT_RPC;
 let refreshTimer = null;
 let gasData      = null; // last computed result
+let lastFetchTime = null;
+let agoTimer      = null;
 
 // ── Helpers ─────────────────────────────────────────────────────────
 function weiToGwei(hexOrBigInt) {
@@ -187,6 +189,7 @@ function compute(parsed) {
 
   return {
     currentBaseFee: round(currentBaseFee, 6),
+    baseFees,
     trend,
     pctChange: round(pctChange, 1),
     congestion,
@@ -208,21 +211,40 @@ function render(data) {
   // Base fee
   elBaseFee.textContent = gwei(data.currentBaseFee);
 
-  // Trend
-  const trendMap = { rising: "\u2191", flat: "\u2192", falling: "\u2193" };
-  elTrend.textContent = trendMap[data.trend] || "?";
-  elTrend.className = "stat-value trend-" + data.trend;
+  // Trend sparkline
+  const colorMap = { rising: "#f87171", flat: "#a1a1aa", falling: "#4ade80" };
+  const stroke = colorMap[data.trend] || "#a1a1aa";
+  const fees = data.baseFees;
+  const min = Math.min(...fees);
+  const max = Math.max(...fees);
+  const range = max - min || 1;
+  const w = 120, h = 36, pad = 2;
+  const points = fees.map((v, i) => {
+    const x = pad + (i / (fees.length - 1)) * (w - pad * 2);
+    const y = pad + (1 - (v - min) / range) * (h - pad * 2);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  const fillPts = [
+    `${pad},${h}`,
+    ...points,
+    `${w - pad},${h}`,
+  ].join(" ");
+  elTrend.innerHTML =
+    `<svg viewBox="0 0 ${w} ${h}" class="sparkline">` +
+    `<polygon points="${fillPts}" fill="${stroke}" fill-opacity="0.15"/>` +
+    `<polyline points="${points.join(" ")}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` +
+    `<circle cx="${points[points.length - 1].split(",")[0]}" cy="${points[points.length - 1].split(",")[1]}" r="3" fill="${stroke}"/>` +
+    `</svg>`;
+  elTrend.className = "stat-chart";
 
   // Congestion badge
   elBadge.textContent = data.congestion;
   elBadge.className = "stat-badge badge-" + data.congestion.toLowerCase();
 
-  // Table rows
+  // Tier rows
   for (const [key, row] of Object.entries(data.rows)) {
-    const tr = document.querySelector(`tr[data-target="${key}"]`);
-    if (!tr) continue;
-    tr.querySelector(".tip-cell").textContent    = gwei(row.tip);
-    tr.querySelector(".maxfee-cell").textContent  = gwei(row.maxFee);
+    const el = document.getElementById(`gwei-${key}`);
+    if (el) el.textContent = gwei(row.maxFee);
   }
 
   // Advanced
@@ -235,7 +257,15 @@ function render(data) {
   $("#adv-p90").textContent        = gwei(data.tips.p90) + " gwei";
 
   // Timestamp
-  elLastUpdated.textContent = new Date().toLocaleTimeString();
+  lastFetchTime = Date.now();
+  updateTimestamp();
+}
+
+function updateTimestamp() {
+  if (!lastFetchTime) return;
+  const ago = Math.round((Date.now() - lastFetchTime) / 1000);
+  const time = new Date(lastFetchTime).toLocaleTimeString();
+  elLastUpdated.textContent = `${time} (${ago}s ago)`;
 }
 
 // ── Main fetch cycle ────────────────────────────────────────────────
@@ -266,28 +296,6 @@ async function refresh() {
   }
 }
 
-// ── Copy button ─────────────────────────────────────────────────────
-function handleCopy(e) {
-  const target = e.currentTarget.dataset.target;
-  if (!gasData || !gasData.rows[target]) return;
-
-  const row = gasData.rows[target];
-  const json = JSON.stringify({
-    maxPriorityFeePerGas_gwei: row.tip,
-    maxFeePerGas_gwei: row.maxFee,
-  });
-
-  navigator.clipboard.writeText(json).then(() => {
-    const btn = e.currentTarget;
-    btn.classList.add("copied");
-    btn.textContent = "\u2713";
-    setTimeout(() => {
-      btn.classList.remove("copied");
-      btn.textContent = "\u2398";
-    }, 1200);
-  });
-}
-
 // ── Init ────────────────────────────────────────────────────────────
 async function init() {
   // Wire up buttons
@@ -303,9 +311,15 @@ async function init() {
     chrome.runtime.openOptionsPage();
   });
 
-  for (const btn of $$(".btn-copy")) {
-    btn.addEventListener("click", handleCopy);
-  }
+  elBaseFee.addEventListener("click", () => {
+    const text = elBaseFee.textContent;
+    if (!text || text === "—") return;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = elBaseFee.textContent;
+      elBaseFee.textContent = "\u2713";
+      setTimeout(() => { elBaseFee.textContent = orig; }, 800);
+    });
+  });
 
   // Load RPC URL (fall back to public default)
   const stored = await chrome.storage.local.get("rpcUrl");
@@ -319,6 +333,7 @@ async function init() {
   // Initial fetch + auto-refresh
   await refresh();
   refreshTimer = setInterval(refresh, 30000);
+  agoTimer = setInterval(updateTimestamp, 1000);
 }
 
 init();
