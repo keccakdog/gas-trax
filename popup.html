@@ -9,10 +9,18 @@
 <body>
   <div id="app">
     <header>
-      <h1><img src="icons/ethereum-eth-logo.png" alt="ETH" width="20" height="20" class="header-icon"> Gas Trax <span class="stat-badge" id="congestion-badge">—</span></h1>
+      <div class="network-selector">
+        <img src="icons/ethereum-eth-logo.png" alt="ETH" width="16" height="16" class="network-icon">
+        <span>Ethereum</span>
+        <span class="network-chevron">&#x25BE;</span>
+      </div>
+      <div class="header-title">
+        <h1>Gas Trax</h1>
+        <span class="stat-badge" id="congestion-badge">&mdash;</span>
+      </div>
       <div id="header-controls">
         <button id="btn-refresh" title="Refresh now">&#x21bb;</button>
-        <button id="btn-advanced" title="Toggle advanced view">&#x2699;</button>
+        <button id="btn-advanced" title="Settings">&#x2699;</button>
       </div>
     </header>
 
@@ -28,29 +36,29 @@
       <div id="status-row">
         <div class="stat">
           <span class="stat-label">Base Fee</span>
-          <span class="stat-value copyable" id="base-fee" title="Click to copy">—</span>
-          <span class="stat-unit">gwei</span>
+          <span class="stat-value copyable" id="base-fee">&mdash;</span>
+          <span class="stat-unit">Gwei</span>
         </div>
         <div class="stat stat-trend">
           <span class="stat-label">Trend</span>
-          <div class="stat-chart" id="trend">—</div>
+          <div class="stat-chart" id="trend">&mdash;</div>
         </div>
       </div>
 
       <div id="gas-tiers">
         <div class="tier" data-target="bargain">
           <span class="tier-label">Slow</span>
-          <span class="tier-gwei" id="gwei-bargain">—</span>
+          <span class="tier-gwei" id="gwei-bargain">&mdash;</span>
           <span class="tier-time">~60s</span>
         </div>
         <div class="tier" data-target="mid">
           <span class="tier-label">Normal</span>
-          <span class="tier-gwei" id="gwei-mid">—</span>
+          <span class="tier-gwei" id="gwei-mid">&mdash;</span>
           <span class="tier-time">~30s</span>
         </div>
         <div class="tier" data-target="next">
           <span class="tier-label">Fast</span>
-          <span class="tier-gwei" id="gwei-next">—</span>
+          <span class="tier-gwei" id="gwei-next">&mdash;</span>
           <span class="tier-time">~12s</span>
         </div>
       </div>
@@ -60,30 +68,30 @@
         <h2>Advanced</h2>
         <div class="adv-grid">
           <span class="adv-label">Fullness (last ~2 min)</span>
-          <span class="adv-value" id="adv-fullness">—</span>
+          <span class="adv-value" id="adv-fullness">&mdash;</span>
 
           <span class="adv-label">Tip dispersion</span>
-          <span class="adv-value" id="adv-dispersion">—</span>
+          <span class="adv-value" id="adv-dispersion">&mdash;</span>
 
           <span class="adv-label">p10 tip (cheap floor)</span>
-          <span class="adv-value" id="adv-p10">—</span>
+          <span class="adv-value" id="adv-p10">&mdash;</span>
 
           <span class="adv-label">p25 tip (bargain)</span>
-          <span class="adv-value" id="adv-p25">—</span>
+          <span class="adv-value" id="adv-p25">&mdash;</span>
 
           <span class="adv-label">p50 tip (normal)</span>
-          <span class="adv-value" id="adv-p50">—</span>
+          <span class="adv-value" id="adv-p50">&mdash;</span>
 
           <span class="adv-label">p75 tip (fast)</span>
-          <span class="adv-value" id="adv-p75">—</span>
+          <span class="adv-value" id="adv-p75">&mdash;</span>
 
           <span class="adv-label">p90 tip (urgent)</span>
-          <span class="adv-value" id="adv-p90">—</span>
+          <span class="adv-value" id="adv-p90">&mdash;</span>
         </div>
       </div>
 
       <div id="updated-row">
-        Last updated: <span id="last-updated">—</span>
+        Last Updated: <span id="last-updated">&mdash;</span>
       </div>
     </div>
   </div>

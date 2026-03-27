@@ -204,42 +204,80 @@ function compute(parsed) {
   };
 }
 
+// ── Theme & active tier mapping ──────────────────────────────────────
+const congestionTheme = {
+  FAVORABLE: { theme: "favorable", badge: "Fast", activeTier: "next" },
+  CHOPPY:    { theme: "choppy",    badge: "Normal", activeTier: "mid" },
+  CONGESTED: { theme: "congested", badge: "Congested", activeTier: "bargain" },
+};
+
+function applyTheme(congestion) {
+  const cfg = congestionTheme[congestion] || congestionTheme.FAVORABLE;
+
+  // Body theme class
+  document.body.className = `theme-${cfg.theme}`;
+
+  // Badge
+  elBadge.textContent = cfg.badge;
+
+  // Active tier highlight
+  $$(".tier").forEach((el) => el.classList.remove("tier-active"));
+  const activeTierEl = $(`.tier[data-target="${cfg.activeTier}"]`);
+  if (activeTierEl) activeTierEl.classList.add("tier-active");
+}
+
 // ── Render ───────────────────────────────────────────────────────────
 function render(data) {
   gasData = data;
 
+  // Apply congestion theme
+  applyTheme(data.congestion);
+
   // Base fee
   elBaseFee.textContent = gwei(data.currentBaseFee);
 
-  // Trend sparkline
-  const colorMap = { rising: "#f87171", flat: "#a1a1aa", falling: "#4ade80" };
-  const stroke = colorMap[data.trend] || "#a1a1aa";
+  // Trend sparkline — color matches theme accent
+  const accentMap = {
+    FAVORABLE: "#4ade80",
+    CHOPPY:    "#f59e0b",
+    CONGESTED: "#ef4444",
+  };
+  const stroke = accentMap[data.congestion] || "#a1a1aa";
   const fees = data.baseFees;
   const min = Math.min(...fees);
   const max = Math.max(...fees);
   const range = max - min || 1;
-  const w = 120, h = 36, pad = 2;
+  const w = 140, h = 48, pad = 2;
   const points = fees.map((v, i) => {
     const x = pad + (i / (fees.length - 1)) * (w - pad * 2);
     const y = pad + (1 - (v - min) / range) * (h - pad * 2);
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   });
+
+  // Dashed average line
+  const avg = fees.reduce((a, b) => a + b, 0) / fees.length;
+  const avgY = (pad + (1 - (avg - min) / range) * (h - pad * 2)).toFixed(1);
+
   const fillPts = [
     `${pad},${h}`,
     ...points,
     `${w - pad},${h}`,
   ].join(" ");
+
+  const lastPt = points[points.length - 1].split(",");
+
   elTrend.innerHTML =
     `<svg viewBox="0 0 ${w} ${h}" class="sparkline">` +
-    `<polygon points="${fillPts}" fill="${stroke}" fill-opacity="0.15"/>` +
+    `<defs><linearGradient id="fill-grad" x1="0" y1="0" x2="0" y2="1">` +
+    `<stop offset="0%" stop-color="${stroke}" stop-opacity="0.2"/>` +
+    `<stop offset="100%" stop-color="${stroke}" stop-opacity="0"/>` +
+    `</linearGradient></defs>` +
+    `<polygon points="${fillPts}" fill="url(#fill-grad)"/>` +
+    `<line x1="${pad}" y1="${avgY}" x2="${w - pad}" y2="${avgY}" stroke="${stroke}" stroke-opacity="0.25" stroke-width="1" stroke-dasharray="4,3"/>` +
     `<polyline points="${points.join(" ")}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` +
-    `<circle cx="${points[points.length - 1].split(",")[0]}" cy="${points[points.length - 1].split(",")[1]}" r="3" fill="${stroke}"/>` +
+    `<circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="3.5" fill="none" stroke="${stroke}" stroke-width="1.5"/>` +
     `</svg>`;
   elTrend.className = "stat-chart";
-
-  // Congestion badge
-  elBadge.textContent = data.congestion;
-  elBadge.className = "stat-badge badge-" + data.congestion.toLowerCase();
 
   // Tier rows
   for (const [key, row] of Object.entries(data.rows)) {
