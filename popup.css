@@ -2,12 +2,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Default theme: favorable / green */
   --accent: #4ade80;
-  --accent-dim: #166534;
+  --accent-dim: rgba(74, 222, 128, 0.08);
   --accent-glow: rgba(74, 222, 128, 0.35);
+  --accent-border: rgba(74, 222, 128, 0.15);
   --badge-bg: #064e3b;
   --badge-text: #6ee7b7;
+  --badge-border: rgba(74, 222, 128, 0.3);
+  --card-bg: #141a17;
+  --card-border: #1e2b24;
 }
 
 body {
@@ -15,10 +18,10 @@ body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   font-size: 15px;
   color: #e4e4e7;
-  background: #0c0c0e;
+  background: #0a0a0c;
 }
 
-#app { padding: 16px 20px 14px; }
+#app { padding: 16px 18px 14px; }
 
 .hidden { display: none !important; }
 
@@ -30,15 +33,15 @@ header {
   margin-bottom: 14px;
 }
 
-/* Network selector (left) */
+/* Network selector pill (left) */
 .network-selector {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 6px 12px;
+  background: #161819;
+  border: 1px solid #2a2d30;
+  border-radius: 0;
+  padding: 6px 14px 6px 10px;
   font-size: 13px;
   font-weight: 600;
   color: #d4d4d8;
@@ -58,7 +61,7 @@ header {
   margin-left: 2px;
 }
 
-/* Title (center) */
+/* Title + badge (center) */
 .header-title {
   display: flex;
   align-items: center;
@@ -72,14 +75,14 @@ h1 {
   color: #f4f4f5;
 }
 
-/* Header controls (right) */
+/* Buttons (right) */
 #header-controls { display: flex; gap: 6px; }
 
 #header-controls button {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #161819;
+  border: 1px solid #2a2d30;
   color: #a1a1aa;
-  border-radius: 10px;
+  border-radius: 0;
   width: 34px;
   height: 34px;
   font-size: 17px;
@@ -91,13 +94,13 @@ h1 {
 }
 
 #header-controls button:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: #1e2022;
   color: #e4e4e7;
 }
 
 #header-controls button.active {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #1e2022;
+  border-color: #3a3d40;
   color: #f4f4f5;
 }
 
@@ -108,24 +111,25 @@ h1 {
   font-weight: 700;
   letter-spacing: 0.4px;
   padding: 3px 10px;
-  border-radius: 6px;
+  border-radius: 0;
   text-transform: capitalize;
   background: var(--badge-bg);
   color: var(--badge-text);
+  border: 1px solid var(--badge-border);
 }
 
 /* ── Banners ────────────────────────────────────────────── */
 .banner {
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 0;
   margin-bottom: 12px;
   font-size: 14px;
   line-height: 1.4;
 }
 
 .banner-setup {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #141617;
+  border: 1px solid #2a2d30;
   color: #a1a1aa;
   text-align: center;
 }
@@ -135,7 +139,7 @@ h1 {
   background: #3f3f46;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   padding: 7px 18px;
   font-size: 13px;
   font-weight: 600;
@@ -145,8 +149,8 @@ h1 {
 .banner-setup button:hover { background: #52525b; }
 
 #error-banner {
-  background: rgba(127, 29, 29, 0.5);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: #1c0a0a;
+  border: 1px solid #5c1b1b;
   color: #fca5a5;
 }
 
@@ -159,9 +163,9 @@ h1 {
 
 .stat {
   flex: 1;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0;
   padding: 14px 16px;
   text-align: center;
 }
@@ -208,9 +212,9 @@ h1 {
 
 .tier {
   flex: 1;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0;
   padding: 16px 0;
   text-align: center;
   position: relative;
@@ -241,43 +245,44 @@ h1 {
   color: #52525b;
 }
 
-/* Active tier glow — applied via JS based on congestion */
-.tier.tier-active {
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
+/* Active tier — color + bottom glow */
 .tier.tier-active .tier-gwei {
   color: var(--accent);
+}
+
+.tier.tier-active .tier-time {
+  color: var(--accent);
+  opacity: 0.6;
 }
 
 .tier.tier-active::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
+  bottom: -10px;
+  left: 15%;
+  right: 15%;
   height: 50%;
   background: radial-gradient(ellipse at bottom, var(--accent-glow) 0%, transparent 70%);
   pointer-events: none;
 }
 
-/* Congested theme: top glow on all tiers */
+/* Congested theme: red glow at top of ALL tier cards */
 body.theme-congested .tier::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 40%;
-  background: radial-gradient(ellipse at top, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
+  top: -10px;
+  left: 15%;
+  right: 15%;
+  height: 45%;
+  background: radial-gradient(ellipse at top, rgba(239, 68, 68, 0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
 /* ── Advanced Panel ─────────────────────────────────────── */
 #advanced-panel {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0;
   padding: 14px 16px;
   margin-bottom: 10px;
 }
@@ -315,28 +320,40 @@ body.theme-congested .tier::before {
 /* ── Theme: Favorable (green) ───────────────────────────── */
 body.theme-favorable {
   --accent: #4ade80;
-  --accent-dim: #166534;
-  --accent-glow: rgba(74, 222, 128, 0.30);
-  --badge-bg: #064e3b;
-  --badge-text: #6ee7b7;
+  --accent-dim: rgba(74, 222, 128, 0.08);
+  --accent-glow: rgba(74, 222, 128, 0.35);
+  --accent-border: rgba(74, 222, 128, 0.15);
+  --badge-bg: #05311f;
+  --badge-text: #4ade80;
+  --badge-border: rgba(74, 222, 128, 0.3);
+  --card-bg: #0f1612;
+  --card-border: #1a2820;
 }
 
 /* ── Theme: Choppy (orange/amber) ───────────────────────── */
 body.theme-choppy {
   --accent: #f59e0b;
-  --accent-dim: #78350f;
+  --accent-dim: rgba(245, 158, 11, 0.08);
   --accent-glow: rgba(245, 158, 11, 0.30);
-  --badge-bg: #78350f;
-  --badge-text: #fcd34d;
+  --accent-border: rgba(245, 158, 11, 0.15);
+  --badge-bg: #3b1f02;
+  --badge-text: #f59e0b;
+  --badge-border: rgba(245, 158, 11, 0.35);
+  --card-bg: #15120d;
+  --card-border: #28211a;
 }
 
 /* ── Theme: Congested (red) ─────────────────────────────── */
 body.theme-congested {
   --accent: #ef4444;
-  --accent-dim: #7f1d1d;
+  --accent-dim: rgba(239, 68, 68, 0.08);
   --accent-glow: rgba(239, 68, 68, 0.30);
-  --badge-bg: #7f1d1d;
-  --badge-text: #fca5a5;
+  --accent-border: rgba(239, 68, 68, 0.15);
+  --badge-bg: #3b0808;
+  --badge-text: #ef4444;
+  --badge-border: rgba(239, 68, 68, 0.4);
+  --card-bg: #150e0e;
+  --card-border: #2a1a1a;
 }
 
 /* ── Bottom accent line ─────────────────────────────────── */

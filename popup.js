@@ -181,10 +181,10 @@ function compute(parsed) {
   const midTip       = p50Med;
   const bargainTip   = p25Med;
 
-  // Suggested maxFeePerGas = 2 * currentBaseFee + chosenTip
+  // Effective gas price = baseFee + tip (what you actually pay)
   const makeRow = (tip) => ({
     tip:    round(tip, 6),
-    maxFee: round(2 * currentBaseFee + tip, 6),
+    total:  round(currentBaseFee + tip, 6),
   });
 
   return {
@@ -282,7 +282,7 @@ function render(data) {
   // Tier rows
   for (const [key, row] of Object.entries(data.rows)) {
     const el = document.getElementById(`gwei-${key}`);
-    if (el) el.textContent = gwei(row.maxFee);
+    if (el) el.textContent = gwei(row.total);
   }
 
   // Advanced
